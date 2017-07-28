@@ -1,0 +1,40 @@
+@import '../../vars.scss';
+
+.mainImageWrapper {
+  position: relative;
+}
+
+.mainImage {
+  width: 100%;
+  height: 50vh;
+  top: 0;
+  height: 50vh;
+  background-size: cover;
+  background-blend-mode: luminosity;
+  background-color: $breaker-bay;
+  filter: blur(1px);
+}
+
+.mainImageContent {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+
+  time {
+    @include opensans(9);
+    color: $spun-pearl;
+    // text-shadow: 1px 1px 1px $mid-gray;
+  }
+
+  .mainTitle {
+    margin-top: 10px;
+    @include roboto(26);
+    color: white;
+    text-shadow: 1px 1px 1px $baltic-sea;
+  }
+}
