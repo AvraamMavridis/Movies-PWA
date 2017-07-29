@@ -1,41 +1,57 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './Routes/Main/Main';
+import MovieInfo from './Routes/MovieInfo/MovieInfo';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 
-ReactDOM.render(<Main />, document.getElementById('root'));
+const Routes = () =>
+  <HashRouter>
+    <div className="cute-12-laptop cute-12-phone no-margin no-padding">
+      <Switch>
+        <Route exact path="/" component={Main} />
+        <Route path="/movie/:id" component={MovieInfo} />
+      </Switch>
+    </div>
+  </HashRouter>;
 
-// /**
-//  * Service Worker
-//  */
+ReactDOM.render(<Routes />, document.getElementById('root'));
 
-// const swVersion = require('./config').swVersion;
+/**
+ * Service Worker
+ */
 
-// /**
-//  * Register the service worker according to swVersion
-//  */
-// function registerServiceWorker() {
-//   navigator.serviceWorker.register(`./sw-${ swVersion }.js`, { scope: '/' })
-//     .then(() => {
-//       console.info('SW: Service Worker registered');// eslint-disable-line
-//     })
-//     .catch((e) => {
-//       console.info('SW: Error registering service worker, assets will be served from network');// eslint-disable-line
-//       console.info(e); // eslint-disable-line
-//     });
-// }
+const swVersion = require('./config').swVersion;
 
-// if ('serviceWorker' in navigator && window.navigator.userAgent !== 'ghost') {
-//   navigator.serviceWorker.getRegistration().then(
-//     (registration) => {
-//       if (registration !== undefined && registration.active.scriptURL.indexOf(`sw-${ swVersion }`) < 0) {
-//         registration.unregister().then((unregistered) => {
-//           if (unregistered) {
-//             registerServiceWorker();
-//           }
-//         });
-//       } else if (registration === undefined) {
-//         registerServiceWorker();
-//       }
-//     }
-//   );
-// }
+/**
+ * Register the service worker according to swVersion
+ */
+function registerServiceWorker() {
+  navigator.serviceWorker
+    .register(`./sw-${swVersion}.js`, { scope: '/' })
+    .then(() => {
+      console.info('SW: Service Worker registered'); // eslint-disable-line
+    })
+    .catch(e => {
+      console.info(
+        'SW: Error registering service worker, assets will be served from network'
+      ); // eslint-disable-line
+      console.info(e); // eslint-disable-line
+    });
+}
+
+if ('serviceWorker' in navigator && window.navigator.userAgent !== 'ghost') {
+  navigator.serviceWorker.getRegistration().then(registration => {
+    if (
+      registration !== undefined &&
+      registration.active.scriptURL.indexOf(`sw-${swVersion}`) < 0
+    ) {
+      registration.unregister().then(unregistered => {
+        if (unregistered) {
+          registerServiceWorker();
+        }
+      });
+    } else if (registration === undefined) {
+      registerServiceWorker();
+    }
+  });
+}

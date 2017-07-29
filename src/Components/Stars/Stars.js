@@ -1,13 +1,39 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Stars.scss';
 
-class Stars extends Component {
+/**
+ * Rating Stars Component
+ *
+ * @class Stars
+ * @extends {PureComponent}
+ */
+export default class Stars extends PureComponent {
+  /**
+   * Component interface
+   */
+  static propTypes = {
+    // movie score
+    rating: PropTypes.number,
+    // optional styling class
+    className: PropTypes.string
+  };
+
+  static defaultProps = {
+    rating: 0,
+    className: ''
+  };
+
+  /**
+   * Renders Component
+   *
+   * @returns {JSX.Element}
+   */
   render() {
-    let { rating } = this.props;
+    let { rating, className } = this.props;
     const flooredRating = Math.floor(rating);
     return (
-      <span className={styles.starsContainer}>
+      <span className={`${styles.starsContainer} ${className}`}>
         {Array.apply(Array, { length: 10 }).map((v, i) => {
           return (
             <svg key={i} height="25" width="23" className="star rating">
@@ -18,14 +44,10 @@ class Stars extends Component {
             </svg>
           );
         })}
-        <span>
+        <span className={styles.rating}>
           {rating}/10
         </span>
       </span>
     );
   }
 }
-
-Stars.propTypes = {};
-
-export default Stars;

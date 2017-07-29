@@ -1,0 +1,33 @@
+@import '../../vars.scss';
+
+.castWrapper {
+  padding: 20px;
+}
+
+.title {
+  @include roboto(16);
+  color: $breaker-bay;
+}
+
+.actorName {
+  @include quicksand(10);
+  color: $baltic-sea;
+}
+
+.actorsWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.actorImage {
+  height: 340px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  @include tablet(portrait) {
+    height: 440px;
+  }
+}

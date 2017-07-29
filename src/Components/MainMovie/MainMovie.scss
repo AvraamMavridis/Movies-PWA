@@ -10,9 +10,23 @@
   top: 0;
   height: 50vh;
   background-size: cover;
-  background-blend-mode: luminosity;
-  background-color: $breaker-bay;
-  filter: blur(1px);
+
+  @include mobile(landscape) {
+    height: 100vh;
+  }
+}
+
+.genreContainer {
+  display: inline-block;
+}
+
+.genre {
+  color: $white;
+  margin-right: 5px;
+}
+
+.overview {
+  color: $white;
 }
 
 .mainImageContent {
@@ -27,14 +41,24 @@
 
   time {
     @include opensans(9);
-    color: $spun-pearl;
-    // text-shadow: 1px 1px 1px $mid-gray;
+    color: $white;
+    justify-content: center;
+    width: 100px;
+    display: inline-flex;
+    background: $breaker-bay;
+
+    @include mobile(all) {
+      @include opensans(7);
+    }
   }
 
   .mainTitle {
-    margin-top: 10px;
     @include roboto(26);
-    color: white;
+    color: $white;
     text-shadow: 1px 1px 1px $baltic-sea;
+
+    @include mobile(all) {
+      @include roboto(20);
+    }
   }
 }

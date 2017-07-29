@@ -21,6 +21,8 @@ module.exports = function (options) {
     cache: true,
     devtool: isFastMode ? 'eval' : 'source-map',
     entry: [
+      "babel-core/register",
+      "babel-polyfill",
       'whatwg-fetch',
       './src/index.js'
     ],
@@ -74,15 +76,11 @@ module.exports = function (options) {
         {
           from: path.join(__dirname, '../src/cachepolyfill.js'),
           to: path.join(__dirname, '../build/cachepolyfill.js'),
-        },
-        {
-          from: path.join(__dirname, '../talks'),
-          to: path.join(__dirname, '../build/talks'),
         }
       ]),
       new FaviconsWebpackPlugin({
         // Your source logo
-        logo: path.join(__dirname, '../assets/images/code.png'),
+        logo: path.join(__dirname, '../assets/images/popcorn.png'),
         // The prefix for all image files (might be a folder or a name)
         prefix: 'favicons/',
         // Emit all stats of the generated icons
@@ -124,12 +122,6 @@ module.exports = function (options) {
     stats: 'normal',
     module: {
       loaders: loaders(options)
-    },
-    resolve: {
-      alias: {
-        react: 'preact-compat',
-        'react-dom': 'preact-compat'
-      }
     }
   };
 };

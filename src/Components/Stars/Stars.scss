@@ -1,4 +1,11 @@
+@import '../../vars.scss';
+
 .starsContainer {
   display: flex;
   align-items: center;
+}
+
+.rating {
+  @include roboto(10);
+  color: $white;
 }

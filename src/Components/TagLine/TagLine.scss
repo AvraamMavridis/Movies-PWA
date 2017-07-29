@@ -1,0 +1,10 @@
+@import '../../vars.scss';
+
+.tagline {
+  @include roboto(20);
+  color: $breaker-bay;
+  text-align: center;
+  background: #0d0d0d;
+  margin: 0px;
+  padding: 50px;
+}

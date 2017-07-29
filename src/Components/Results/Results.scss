@@ -1,0 +1,6 @@
+@import '../../vars.scss';
+
+.resultsTitle {
+  color: $breaker-bay;
+  @include roboto(16);
+}

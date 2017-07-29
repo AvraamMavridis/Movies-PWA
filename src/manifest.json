@@ -1,13 +1,13 @@
 {
-  "name": "Avraam Mavridis",
-  "short_name": "AvrMav",
-  "description": "Avraam Mavridis - Personal Website",
+  "name": "Movies PWA",
+  "short_name": "MoviesPWA",
+  "description": "Offline-first PWA Movies",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#D6805F",
-  "background_color": "#D6805F",
+  "theme_color": "#B32D3A",
+  "background_color": "#B32D3A",
   "icons": [
     {
       "src": "./favicons/apple-touch-icon-57x57.png",

@@ -1,29 +1,68 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styles from './SearchForm.scss';
 import Rx from 'rxjs/Rx';
 import MovieAPIService from '../../Services/MovieAPIService';
-import SearchFormItem from '../SearchFormItem/SearchFormItem';
 
-class SearchForm extends Component {
+/**
+ * Search Form Component
+ *
+ * @class SearchForm
+ * @extends {PureComponent}
+ */
+export default class SearchForm extends PureComponent {
+  /**
+   * Component interface
+   *
+   * @static
+   */
+  static propTypes = {
+    onSearch: PropTypes.func.isRequired
+  };
 
+  /**
+   * Attach react listeners when component is mounted
+   */
   componentDidMount() {
-    const keyInput$ = Rx.Observable.fromEvent(this.searchInput, 'keyup');
+    this.keyInput$ = Rx.Observable.fromEvent(this.searchInput, 'keyup');
 
-    keyInput$
+    // Immediately cleanup the search results when the input field becomes empty
+    const empty$ = this.keyInput$
       .filter(e => !Boolean(e.target.value))
-      .subscribe(() => this.props.onSearch([]));
-
-    keyInput$
-      .debounceTime(500)
-      .map(event => event.target.value) // take the last value
-      .filter(Boolean) // filter the empty '' (after backspace)
-      .distinctUntilChanged() // take only the value if changed
-      .flatMap(MovieAPIService.multiSearch) // unroll promise
-      .subscribe(data =>
-        this.props.onSearch(data.results.filter(result => result.poster_path).slice(0,12) || [])
+      .subscribe(() =>
+        this.props.onSearch({ searchResults: [], searchWord: '' })
       );
+
+    // Subscription for the case where the input field has value
+    const input$ = this.keyInput$
+      .debounceTime(500) // 500ms to not flood server with request on every keystroke
+      .map(event => event.target.value) // take the last value
+      .filter(Boolean) // filter the empty '' (e.g. after backspace)
+      .distinctUntilChanged() // take value if changed (inside the 500ms time window) to avoid requests
+      .flatMap(MovieAPIService.multiSearch) // unroll promise
+      .catch(() => Rx.Observable.empty()) // continue listen after ajax error
+      .subscribe(data => {
+        this.props.onSearch({
+          searchResults: data.results.filter(result => result.poster_path),
+          searchWord: this.searchInput.value
+        });
+      });
+
+    this.subscriptions = [empty$, input$];
   }
 
+  /**
+   * Cleanup on component unMounting
+   */
+  componentWillUnmount() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  /**
+   * Render Search Input
+   *
+   * @returns {JSX.Element}
+   */
   render() {
     return (
       <div className={styles.searchForm}>
@@ -33,11 +72,9 @@ class SearchForm extends Component {
           id="input"
           type="text"
           className={styles.search}
-          placeholder="Country"
+          placeholder="Search movie or tv serie"
         />
       </div>
     );
   }
 }
-
-export default SearchForm;

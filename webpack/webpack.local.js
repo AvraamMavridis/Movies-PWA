@@ -83,7 +83,7 @@ module.exports = function (options) {
       ]),
       new FaviconsWebpackPlugin({
         // Your source logo
-        logo: path.join(__dirname, '../assets/images/code.png'),
+        logo: path.join(__dirname, '../assets/images/popcorn.png'),
         // The prefix for all image files (might be a folder or a name)
         prefix: 'favicons/',
         // Emit all stats of the generated icons

@@ -1,26 +1,19 @@
-/**
- * WARNING!!!
- * NO es7 here!
- */
 /* eslint no-console: 0 */
 /* eslint prefer-arrow-callback: 0 */
 importScripts('./cachepolyfill.js'); // eslint-disable-line
 
-var CACHE_VERSION = 4;
-var CACHE = `avraam-mavridis-cache-v${ CACHE_VERSION }`;
+var CACHE_VERSION = 5;
+var CACHE = `movies-pwa-cache-v${ CACHE_VERSION }`;
 
 // CHECK CAREFULLY HERE WHEN YOU ADD SOMETHING
 // IF YOUR ADDITION IS ERRONEOUS e.g. wrong url
 // IT WILL BREAK ALL THE CACHING
 const assetsToCache = [
   // LOCAL FILES
-  '/css/cutegrids.css',
-  '/css/normalize.css',
-  '/favicons/favicon-32x32.png',
-  '/favicons/favicon-16x16.png',
-  '/android-chrome-192x192.png',
   '/manifest.json',
-  '/favicon.ico'
+  '/favicon.ico',
+  '/',                     // If you have separate JS/CSS files,
+  '/index.html'            // add path to those files here
 ];
 
 // On install, cache some resource.
@@ -36,13 +29,16 @@ self.addEventListener('install', function (evt) {
 // On fetch, use cache but update the entry with the latest contents
 // from the server.
 self.addEventListener('fetch', function (evt) {
-  // WORKAROUND for bug in chrome when the page has
-  // been opened before and the video doesn't load MYCS-5916
-  if (evt.request.url.indexOf('.mp4') < 0) {
+  if(evt.request.url.indexOf('undefined') > -1){
+    // evt.respondWith(fromCache(evt.request))
+  } else {
     // Try cache, if the resource is not there check network
     evt.respondWith(fromCache(evt.request)
       .catch(function () {
         return fromNetwork(evt.request);
+      })
+      .catch(function(e){
+        console.log(e)
       })
     );
   }
@@ -119,11 +115,11 @@ function update(request) {
  */
 function fromNetwork(request) {
   return new Promise(function (fulfill, reject) {
-    console.log(request.url);
       // Cache assets
     if (request.url.indexOf('.png') > -1
          || request.url.indexOf('.css') > -1
          || request.url.indexOf('.jpg') > -1
+         || request.url.indexOf('.jpeg') > -1
          || request.url.indexOf('.html') > -1
          || request.url.indexOf('.js') > -1
          || request.url.indexOf('.svg') > -1
