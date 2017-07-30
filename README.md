@@ -36,3 +36,8 @@ It can be accessed through a browsers but it can also be installed as an app on 
 <img width="320" src="https://preview.ibb.co/gLeoPk/Online_Photo_Editor_Pixlr_Editor.png" />
 
 <img width="320" src="https://preview.ibb.co/nuDMc5/IMG_4507.png" />
+
+
+### Depedency Graph
+
+<img src="https://preview.ibb.co/cpHdqQ/IMG_4509.jpg" />
