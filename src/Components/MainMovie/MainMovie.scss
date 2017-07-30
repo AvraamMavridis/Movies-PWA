@@ -57,8 +57,12 @@
     color: $white;
     text-shadow: 1px 1px 1px $baltic-sea;
 
-    @include mobile(all) {
-      @include roboto(20);
+    @include mobile(portrait) {
+      @include roboto(13);
+    }
+
+    @include mobile(landscape) {
+      @include roboto(16);
     }
   }
 }
